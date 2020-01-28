@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="controller.js"></script>
+    <style id="remoteStyle" media="">
+        #Buttons > g {
+            cursor: pointer;
+        }
+        text {
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- <a href="javascript:sendCmd(25)">vol down</a>
+    <a href="javascript:sendCmd(24)">vol up</a> -->
+    <object id="remoteObj" data="remote.svg" style="height: 90vh" type="image/svg+xml"></object>
+    <script>
+        window.addEventListener("load", function() {
+
+            
+            var remoteDOM = document.getElementById('remoteObj').contentDocument;
+
+            remoteDOM.querySelector('style').innerHTML += remoteStyle.innerHTML;
+            
+            function setCode (elementId, code) {
+                remoteDOM.getElementById(elementId).onclick = () => sendCmd(code);
+            }
+            setCode('Power', 1);
+
+            setCode('Help', 46); // ???
+
+            setCode('Ratio', 46);
+            setCode('Input', 47);
+
+            setCode('TV', 48); // ???
+
+            setCode('Num1', 3);
+            setCode('Num2', 4);
+            setCode('Num3', 5);
+            setCode('Num4', 6);
+            setCode('Num5', 7);
+            setCode('Num6', 8);
+            setCode('Num7', 9);
+            setCode('Num8', 10);
+            setCode('Num9', 11);
+            setCode('Num0', 2);
+
+            setCode('List', 402);
+            setCode('QView', 405);
+            
+            setCode('VolUp', 24);
+            setCode('VolDown', 25);
+            setCode('ChUp', 27);
+            setCode('ChDown', 28);
+
+            setCode('Fav',      404);
+            setCode('Settings', 22);
+            setCode('Mute',     26);
+            setCode('Info',     45);
+            setCode('Smart',    21);
+            setCode('MyApps',   417);
+            setCode('Back',     23);
+            setCode('Guide',    44);
+            setCode('Exit',     412);
+            setCode('Ok',       20);
+
+            setCode('Up',       12);
+            setCode('Down',     13);
+            setCode('Left',     14);
+            setCode('Right',    15);
+
+            setCode('Red1',     31);
+            setCode('Green2',   30);
+            setCode('Yellow3',  32);
+            setCode('Blue4',    29);
+            
+            
+            setCode('Stop',     35);
+            setCode('Play',     33);
+            setCode('Pause',    34);
+            setCode('Rew',      37);
+            setCode('FF',       36);
+            setCode('Rec',      40);
+            setCode('AVMode',   410);
+            setCode('Simplink', 411);
+
+
+        });
+
+    </script>
+</body>
+</html>
