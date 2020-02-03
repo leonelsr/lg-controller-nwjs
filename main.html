@@ -14,6 +14,17 @@
             width: max-content;
             overflow: hidden;
         }
+        .toolbar {
+            -webkit-app-region: no-drag;
+            position: absolute;
+            top: 3.5vh;
+            right: 10px;
+            opacity: 0.01;
+        }
+        .toolbar:hover {
+            opacity: 1;
+        }
+        /*
         #devToolsBtn {
             -webkit-app-region: no-drag;
             position: absolute;
@@ -25,6 +36,7 @@
         #devToolsBtn:hover {
             opacity: 1;
         }
+        */
         svg {
             height: 100vh;
             /*-webkit-app-region: drag;*/
@@ -85,13 +97,29 @@
     <!-- <a href="javascript:sendCmd(25)">vol down</a>
     <a href="javascript:sendCmd(24)">vol up</a> -->
     <!-- <object id="remoteObj" data="remote.svg" style="height: 90vh" type="image/svg+xml"></object> -->
-    <button onclick="nw.Window.get().showDevTools()" id="devToolsBtn">devTools</button>
+    <div class="toolbar">
+        <button onclick="nw.Window.get().showDevTools()" id="devToolsBtn">devTools</button>
+        <br>
+        <!-- ✅❎☑☐⛶ -->
+        <button onclick="toggleOnTop()" id="onTopBtn"><span id="onTopStatus">☑</span> on top</button>
+    </div>
     <script>
         const fs = require('fs');
         const svgCode = fs.readFileSync('remote.svg', 'utf-8');
+        const win = nw.Window.get();
 
         var remoteContainer = document.getElementById('remoteContainer');
         remoteContainer.innerHTML = svgCode;
+        win.setAlwaysOnTop(true);
+        var isAlwaysOnTop = true;
+
+        function toggleOnTop() {
+            isAlwaysOnTop = !isAlwaysOnTop;
+            win.setAlwaysOnTop(isAlwaysOnTop);
+
+            document.getElementById('onTopStatus').innerHTML = isAlwaysOnTop ? '☑' : '☐';
+            console.log('toggleOnTop()', isAlwaysOnTop)
+        }
 
         //window.addEventListener("load", function() {
 
@@ -101,7 +129,6 @@
             var remoteElem = document.querySelector('#remoteContainer > svg');
  
             function setCode (elementId, code) {
-
                 remoteElem.getElementById(elementId).onclick = () => sendCmd(code);
             }
 
