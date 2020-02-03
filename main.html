@@ -6,30 +6,116 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <script src="controller.js"></script>
-    <style id="remoteStyle" media="">
-        #Buttons > g {
-            cursor: pointer;
+    <style>
+        body {
+            /* -webkit-app-region: drag; */
+            padding: 0;
+            margin: 0;
+            width: max-content;
+            overflow: hidden;
         }
-        text {
+        #devToolsBtn {
+            -webkit-app-region: no-drag;
+            position: absolute;
+            top: 3.5vh;
+            right: 10px;
+            opacity: 0.01;
             user-select: none;
         }
+        #devToolsBtn:hover {
+            opacity: 1;
+        }
+        svg {
+            height: 100vh;
+            /*-webkit-app-region: drag;*/
+        }
+        svg #Buttons > g {
+            cursor: pointer;
+            -webkit-app-region: no-drag;
+        }
+        svg text {
+            user-select: none;
+        }
+        svg #BG {
+            /* -webkit-app-region: drag; */
+        }
+        
+        .borders {
+            -webkit-app-region: drag;
+            position: absolute;
+            z-index: 10;
+            margin: 0;
+            padding: 0;
+            /* background-color: rgba(0,0,0,0.5); */
+        }
+        .borders.upper {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3.5vh;
+        }
+        .borders.bottom {
+            bottom:0;
+            left: 0;
+            width: 100%;
+            height: 3.5vh;
+        }
+        .borders.left {
+            top: 0;
+            left: 0;
+            width: 1.5vh;
+            height: 100%;
+        }
+        .borders.right {
+            top: 0;
+            right: 0;
+            width: 1.5vh;
+            height: 100%;
+        }
+
+
     </style>
 </head>
 <body>
+    <div class="borders upper"> </div>
+    <div class="borders bottom"> </div>
+    <div class="borders left"> </div>
+    <div class="borders right"> </div>
+    <div id="remoteContainer"></div>
     <!-- <a href="javascript:sendCmd(25)">vol down</a>
     <a href="javascript:sendCmd(24)">vol up</a> -->
-    <object id="remoteObj" data="remote.svg" style="height: 90vh" type="image/svg+xml"></object>
+    <!-- <object id="remoteObj" data="remote.svg" style="height: 90vh" type="image/svg+xml"></object> -->
+    <button onclick="nw.Window.get().showDevTools()" id="devToolsBtn">devTools</button>
     <script>
-        window.addEventListener("load", function() {
+        const fs = require('fs');
+        const svgCode = fs.readFileSync('remote.svg', 'utf-8');
 
+        var remoteContainer = document.getElementById('remoteContainer');
+        remoteContainer.innerHTML = svgCode;
+
+        //window.addEventListener("load", function() {
+
+            nw.Window.get().setInnerWidth(document.body.clientWidth);
+            console.log('resized')
             
+            var remoteElem = document.querySelector('#remoteContainer > svg');
+ 
+            function setCode (elementId, code) {
+
+                remoteElem.getElementById(elementId).onclick = () => sendCmd(code);
+            }
+
+            /*
             var remoteDOM = document.getElementById('remoteObj').contentDocument;
+            var remoteStyle = document.getElementById('remoteStyle');
 
             remoteDOM.querySelector('style').innerHTML += remoteStyle.innerHTML;
             
             function setCode (elementId, code) {
                 remoteDOM.getElementById(elementId).onclick = () => sendCmd(code);
             }
+            */
+
             setCode('Power', 1);
 
             setCode('Help', 46); // ???
@@ -90,7 +176,7 @@
             setCode('Simplink', 411);
 
 
-        });
+        //});
 
     </script>
 </body>

@@ -4,11 +4,12 @@
   "description": "",
   "main": "main.html",
   "window": {
-    "toolbar": true,
-    "//frame": false,
+    "toolbar": false,
+    "frame": false,
     "//fullscreen": true,
     "//position": "center",
-    "width": 450,
+    "transparent": true,
+    "width": 200,
     "height": 960
   },
   "dependencies": {
