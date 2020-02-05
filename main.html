@@ -123,84 +123,84 @@
 
         //window.addEventListener("load", function() {
 
-            nw.Window.get().setInnerWidth(document.body.clientWidth);
-            console.log('resized')
-            
-            var remoteElem = document.querySelector('#remoteContainer > svg');
- 
-            function setCode (elementId, code) {
-                remoteElem.getElementById(elementId).onclick = () => sendCmd(code);
-            }
+        nw.Window.get().setInnerWidth(document.body.clientWidth);
+        console.log('resized')
+        
+        var remoteElem = document.querySelector('#remoteContainer > svg');
 
-            /*
-            var remoteDOM = document.getElementById('remoteObj').contentDocument;
-            var remoteStyle = document.getElementById('remoteStyle');
+        function setCode (elementId, code) {
+            remoteElem.getElementById(elementId).onclick = () => sendCmd(code);
+        }
 
-            remoteDOM.querySelector('style').innerHTML += remoteStyle.innerHTML;
-            
-            function setCode (elementId, code) {
-                remoteDOM.getElementById(elementId).onclick = () => sendCmd(code);
-            }
-            */
+        /*
+        var remoteDOM = document.getElementById('remoteObj').contentDocument;
+        var remoteStyle = document.getElementById('remoteStyle');
 
-            setCode('Power', 1);
+        remoteDOM.querySelector('style').innerHTML += remoteStyle.innerHTML;
+        
+        function setCode (elementId, code) {
+            remoteDOM.getElementById(elementId).onclick = () => sendCmd(code);
+        }
+        */
 
-            setCode('Help', 46); // ???
+        setCode('Power', 1);
 
-            setCode('Ratio', 46);
-            setCode('Input', 47);
+        setCode('Help', 46); // ???
 
-            setCode('TV', 48); // ???
+        setCode('Ratio', 46);
+        setCode('Input', 47);
 
-            setCode('Num1', 3);
-            setCode('Num2', 4);
-            setCode('Num3', 5);
-            setCode('Num4', 6);
-            setCode('Num5', 7);
-            setCode('Num6', 8);
-            setCode('Num7', 9);
-            setCode('Num8', 10);
-            setCode('Num9', 11);
-            setCode('Num0', 2);
+        setCode('TV', 48); // ???
 
-            setCode('List', 402);
-            setCode('QView', 405);
-            
-            setCode('VolUp', 24);
-            setCode('VolDown', 25);
-            setCode('ChUp', 27);
-            setCode('ChDown', 28);
+        setCode('Num1', 3);
+        setCode('Num2', 4);
+        setCode('Num3', 5);
+        setCode('Num4', 6);
+        setCode('Num5', 7);
+        setCode('Num6', 8);
+        setCode('Num7', 9);
+        setCode('Num8', 10);
+        setCode('Num9', 11);
+        setCode('Num0', 2);
 
-            setCode('Fav',      404);
-            setCode('Settings', 22);
-            setCode('Mute',     26);
-            setCode('Info',     45);
-            setCode('Smart',    21);
-            setCode('MyApps',   417);
-            setCode('Back',     23);
-            setCode('Guide',    44);
-            setCode('Exit',     412);
-            setCode('Ok',       20);
+        setCode('List', 402);
+        setCode('QView', 405);
+        
+        setCode('VolUp', 24);
+        setCode('VolDown', 25);
+        setCode('ChUp', 27);
+        setCode('ChDown', 28);
 
-            setCode('Up',       12);
-            setCode('Down',     13);
-            setCode('Left',     14);
-            setCode('Right',    15);
+        setCode('Fav',      404);
+        setCode('Settings', 22);
+        setCode('Mute',     26);
+        setCode('Info',     45);
+        setCode('Smart',    21);
+        setCode('MyApps',   417);
+        setCode('Back',     23);
+        setCode('Guide',    44);
+        setCode('Exit',     412);
+        setCode('Ok',       20);
 
-            setCode('Red1',     31);
-            setCode('Green2',   30);
-            setCode('Yellow3',  32);
-            setCode('Blue4',    29);
-            
-            
-            setCode('Stop',     35);
-            setCode('Play',     33);
-            setCode('Pause',    34);
-            setCode('Rew',      37);
-            setCode('FF',       36);
-            setCode('Rec',      40);
-            setCode('AVMode',   410);
-            setCode('Simplink', 411);
+        setCode('Up',       12);
+        setCode('Down',     13);
+        setCode('Left',     14);
+        setCode('Right',    15);
+
+        setCode('Red1',     31);
+        setCode('Green2',   30);
+        setCode('Yellow3',  32);
+        setCode('Blue4',    29);
+        
+        
+        setCode('Stop',     35);
+        setCode('Play',     33);
+        setCode('Pause',    34);
+        setCode('Rew',      37);
+        setCode('FF',       36);
+        setCode('Rec',      40);
+        setCode('AVMode',   410);
+        setCode('Simplink', 411);
 
 
         //});
