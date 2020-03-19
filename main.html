@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>LG Controller</title>
     <script src="controller.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         body {
             /* -webkit-app-region: drag; */
@@ -20,6 +21,21 @@
             top: 3.5vh;
             right: 10px;
             opacity: 0.01;
+            user-select: none;
+        }
+        .toolbar button:focus {
+            outline:none;
+        }
+        .toolbar button {
+            padding: 0;
+            background-color: #212121;
+            border: none;
+            text-align: center;
+            cursor: pointer;
+        }
+        .toolbar button, .toolbar button i {
+            font-size: 20px;
+            color: #fff;
         }
         .toolbar:hover {
             opacity: 1;
@@ -98,10 +114,20 @@
     <a href="javascript:sendCmd(24)">vol up</a> -->
     <!-- <object id="remoteObj" data="remote.svg" style="height: 90vh" type="image/svg+xml"></object> -->
     <div class="toolbar">
-        <button onclick="nw.Window.get().showDevTools()" id="devToolsBtn">devTools</button>
+        <button onclick="toggleOnTop()" id="onTopBtn" title="Always on top">
+            <i class="material-icons" id="onTopStatus">check_box</i>
+        </button>
+        <button onclick="nw.App.quit()" id="closeBtn">
+            <i class="material-icons">close</i>
+        </button>
         <br>
+        <button onclick="window.location.reload()" id="reloadBtn" title="Reload">
+            <i class="material-icons">refresh</i>
+        </button>
+        <button onclick="nw.Window.get().showDevTools()" id="devToolsBtn" title="Show devtools">
+            <i class="material-icons">build</i>
+        </button>
         <!-- ✅❎☑☐⛶ -->
-        <button onclick="toggleOnTop()" id="onTopBtn"><span id="onTopStatus">☑</span> on top</button>
     </div>
     <script>
         const fs = require('fs');
@@ -117,7 +143,7 @@
             isAlwaysOnTop = !isAlwaysOnTop;
             win.setAlwaysOnTop(isAlwaysOnTop);
 
-            document.getElementById('onTopStatus').innerHTML = isAlwaysOnTop ? '☑' : '☐';
+            document.getElementById('onTopStatus').innerHTML = isAlwaysOnTop ? 'check_box' : 'check_box_outline_blank';
             console.log('toggleOnTop()', isAlwaysOnTop)
         }
 
