@@ -12,46 +12,52 @@ var tvSession = 0;
 var cssTitle = 'font-size: 1.2em; font-weight: bold;'
 var cssNormal = 'font-size: initial; font-weight: normal;'
 
-// Exibe a key na TV
-request({
-    url: `http://${tvAddr}:8080/roap/api/auth`,
-    method: 'POST',
-    jar: cookieJar,
-    headers: {
-        'Content-Type': 'application/atom+xml'
-    },
-    body: `<?xml version="1.0" encoding="utf-8"?><auth><type>AuthKeyReq</type></auth>`
-}, function (error, response, body) {
-    RESPONSE = response; ERROR = error; BODY = body;
-    console.log('%cresponse%c\n',cssTitle, cssNormal, response)
-    console.log('%cerror%c\n',cssTitle, cssNormal, error)
-    console.log('%cbody%c\n',cssTitle, cssNormal, body)
-    //console.log(error, response, body)
-});
 
+// Exibe a key na TV
+function showPairingKey() {
+    return request({
+        url: `http://${tvAddr}:8080/roap/api/auth`,
+        method: 'POST',
+        jar: cookieJar,
+        headers: {
+            'Content-Type': 'application/atom+xml'
+        },
+        body: `<?xml version="1.0" encoding="utf-8"?><auth><type>AuthKeyReq</type></auth>`
+    }, function (error, response, body) {
+        RESPONSE = response; ERROR = error; BODY = body;
+        console.log('%cresponse%c\n',cssTitle, cssNormal, response)
+        console.log('%cerror%c\n',cssTitle, cssNormal, error)
+        console.log('%cbody%c\n',cssTitle, cssNormal, body)
+        //console.log(error, response, body)
+    });
+}
 
 // Pegar session
-request({
-    url: `http://${tvAddr}:8080/roap/api/auth`,
-    method: 'POST',
-    jar: cookieJar,
-    headers: {
-        'Content-Type': 'application/atom+xml'
-    },
-    body: `<!--?xml version="1.0" encoding="utf-8"?--><auth><type>AuthReq</type><value>${tvKey}</value></auth>`
-}, function (error, response, body) {
-    RESPONSE = response; ERROR = error; BODY = body;
-    console.log('%cresponse%c\n',cssTitle, cssNormal, response)
-    console.log('%cerror%c\n',cssTitle, cssNormal, error)
-    console.log('%cbody%c\n',cssTitle, cssNormal, body)
-    //console.log(error, response, body)
-    // <?xml version="1.0" encoding="utf-8"?><envelope><ROAPError>200</ROAPError><ROAPErrorDetail>OK</ROAPErrorDetail><session>2053616820</session></envelope>
+function getTVsession() {
+    return request({
+        url: `http://${tvAddr}:8080/roap/api/auth`,
+        method: 'POST',
+        jar: cookieJar,
+        headers: {
+            'Content-Type': 'application/atom+xml'
+        },
+        body: `<!--?xml version="1.0" encoding="utf-8"?--><auth><type>AuthReq</type><value>${tvKey}</value></auth>`
+    }, function (error, response, body) {
+        RESPONSE = response; ERROR = error; BODY = body;
+        console.log('%cresponse%c\n',cssTitle, cssNormal, response)
+        console.log('%cerror%c\n',cssTitle, cssNormal, error)
+        console.log('%cbody%c\n',cssTitle, cssNormal, body)
+        //console.log(error, response, body)
+        // <?xml version="1.0" encoding="utf-8"?><envelope><ROAPError>200</ROAPError><ROAPErrorDetail>OK</ROAPErrorDetail><session>2053616820</session></envelope>
 
-    var data = parser.parse(body)
-    tvSession = data.envelope.session;
-    console.info(`Got session: ${tvSession}`);
-});
+        var data = parser.parse(body)
+        tvSession = data.envelope.session;
+        console.info(`Got session: ${tvSession}`);
+    });
+}
 
+showPairingKey()
+getTVsession()
 
 function sendCmd(cmdInt, cmdCallback) {
     request({
