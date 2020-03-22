@@ -9,8 +9,8 @@
     "//fullscreen": true,
     "//position": "center",
     "transparent": true,
-    "width": 200,
-    "height": 960
+    "width": 180,
+    "height": 828
   },
   "dependencies": {
     "fast-xml-parser": "^3.16.0",

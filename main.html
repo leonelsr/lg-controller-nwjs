@@ -120,7 +120,7 @@
         <button onclick="toggleOnTop()" id="onTopBtn" title="Always on top">
             <i class="material-icons" id="onTopStatus">check_box</i>
         </button>
-        <button onclick="nw.App.quit()" id="closeBtn">
+        <button onclick="win.close()" id="closeBtn">
             <i class="material-icons">close</i>
         </button>
         <br>
@@ -136,6 +136,7 @@
         const fs = require('fs');
         const svgCode = fs.readFileSync('remote.svg', 'utf-8');
         const win = nw.Window.get();
+        const gui = require('nw.gui');
 
         var remoteContainer = document.getElementById('remoteContainer');
         remoteContainer.innerHTML = svgCode;
@@ -155,7 +156,39 @@
         nw.Window.get().setInnerWidth(document.body.clientWidth);
         console.log('resized')
         
-        var remoteElem = document.querySelector('#remoteContainer > svg');
+        const remoteElem = document.querySelector('#remoteContainer > svg');
+
+
+        onResizeFunc = debounce(function () {
+            win.width = remoteElem.clientWidth;
+            win.height = remoteElem.clientHeight;
+
+        }, 250);
+        win.on('resize', onResizeFunc);
+
+        win.on('close', function () {
+            var settings = {
+                window: {
+                    x: win.x,
+                    y: win.y,
+                    width: win.width,
+                    height: win.height
+                }
+            };
+            fs.writeFileSync('settings.json', JSON.stringify(settings, null, 2));
+            win.close(true);
+        });
+
+        
+        if (fs.existsSync('./settings.json')) {
+            var settings = require('./settings.json');
+            win.resizeTo(settings.window.width, settings.window.height);
+            win.moveTo(settings.window.x, settings.window.y);
+        } else {
+            var xOffset = gui.Screen.screens.length == 2 ? gui.Screen.screens[1].bounds.x : 0;
+            win.moveTo(xOffset);
+            win.moveTo(Math.round((screen.availWidth - win.width)*0.95) + xOffset, Math.round((screen.availHeight - win.height)/2))
+        }
 
         function setCode (elementId, code) {
             remoteElem.getElementById(elementId).onclick = () => sendCmd(code);
