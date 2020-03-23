@@ -10,7 +10,8 @@
     "//position": "center",
     "transparent": true,
     "width": 180,
-    "height": 828
+    "height": 828,
+    "icon": "icon.png"
   },
   "dependencies": {
     "fast-xml-parser": "^3.16.0",

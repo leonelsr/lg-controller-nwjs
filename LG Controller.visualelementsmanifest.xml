@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<VisualElements
+    BackgroundColor="#333333"
+    ShowNameOnSquare150x150Logo="on"
+    ForegroundText="light"
+    Wide150x300Logo="icon.png"
+    Wide150x310Logo="icon.png"
+    Square300x300Logo="icon.png"
+    Square310x310Logo="icon.png"
+    Wide300x150Logo="icon.png"
+    Wide310x150Logo="icon.png"
+    Square150x150Logo="icon.png"
+    Square70x70Logo="icon.png"
+  />
+</Application>
