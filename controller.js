@@ -56,8 +56,6 @@ function getTVsession() {
     });
 }
 
-showPairingKey()
-getTVsession()
 
 function sendCmd(cmdInt, cmdCallback) {
     request({

@@ -22,6 +22,7 @@
             right: 2vh;
             opacity: 0.01;
             user-select: none;
+            text-align: right;
         }
         .toolbar button:focus {
             outline:none;
@@ -120,14 +121,22 @@
         <button onclick="toggleOnTop()" id="onTopBtn" title="Always on top">
             <i class="material-icons" id="onTopStatus">check_box</i>
         </button>
+        <button onclick="win.minimize()" id="minimizeBtn">
+            <i class="material-icons">minimize</i>
+        </button>
         <button onclick="win.close()" id="closeBtn">
             <i class="material-icons">close</i>
         </button>
+
         <br>
+
         <button onclick="window.location.reload()" id="reloadBtn" title="Reload">
             <i class="material-icons">refresh</i>
         </button>
-        <button onclick="nw.Window.get().showDevTools()" id="devToolsBtn" title="Show devtools">
+        <button onclick="showConfig()" id="configBtn" title="Configuration">
+            <i class="material-icons">settings</i>
+        </button>
+        <button onclick="nw.Window.get().showDevTools()" id="devToolsBtn" title="Show DevTools">
             <i class="material-icons">build</i>
         </button>
         <!-- ✅❎☑☐⛶ -->
@@ -173,6 +182,11 @@
                     y: win.y,
                     width: win.width,
                     height: win.height
+                },
+                TV: {
+                    ipAddr: tvAddr,
+                    pairKey: tvPairKey,
+                    lastSession: tvSession
                 }
             };
             fs.writeFileSync('settings.json', JSON.stringify(settings, null, 2));
@@ -184,11 +198,20 @@
             var settings = require('./settings.json');
             win.resizeTo(settings.window.width, settings.window.height);
             win.moveTo(settings.window.x, settings.window.y);
+            
+            tvAddr = settings.TV.ipAddr;
+            tvPairKey = settings.TV.pairKey;
+            tvSession = settings.TV.lastSession;
+
         } else {
             var xOffset = gui.Screen.screens.length == 2 ? gui.Screen.screens[1].bounds.x : 0;
             win.moveTo(xOffset);
             win.moveTo(Math.round((screen.availWidth - win.width)*0.95) + xOffset, Math.round((screen.availHeight - win.height)/2))
         }
+        
+        showPairingKey()
+        getTVsession()
+
 
         function setCode (elementId, code) {
             remoteElem.getElementById(elementId).onclick = () => sendCmd(code);
@@ -204,6 +227,37 @@
             remoteDOM.getElementById(elementId).onclick = () => sendCmd(code);
         }
         */
+
+        global.setPairKey = key => tvPairKey = key;
+        global.setTvAddr = addr => tvAddr = addr;
+
+        function showConfig() {
+            nw.Window.open('config.html', {
+                width: 300,
+                height: 100,
+                resizable: false,
+                position: 'center',
+                id: 'configWindow',
+                focus: true
+            }, function (cfgWin) {
+                console.log('cfgwin loaded', cfgWin)
+                cfgWin.window.onload = function () {
+                    var tvAddrElem = cfgWin.window.document.getElementById('tvAddr');
+                    var pairKeyElement = cfgWin.window.document.getElementById('pairKey');
+                    tvAddrElem.value = tvAddr;
+                    pairKeyElement.value = tvPairKey;
+
+                    cfgWin.window.document.getElementById('okBtn').onclick = function () {
+                        console.log('ok pressed')
+                        global.setTvAddr(tvAddrElem.value);
+                        global.setPairKey(pairKeyElement.value);
+                        cfgWin.close();
+                    };
+                }
+            });
+            //WIN.window.document.getElementById('ipAddr').value = tvAddr;
+            //WIN.window.document.getElementById('pairKey').value = tvPairKey;
+        }
 
         setCode('Power', 1);
 
