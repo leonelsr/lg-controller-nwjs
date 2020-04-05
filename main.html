@@ -175,7 +175,7 @@
         }, 250);
         win.on('resize', onResizeFunc);
 
-        win.on('close', function () {
+        function saveSettings() {
             var settings = {
                 window: {
                     x: win.x,
@@ -190,6 +190,10 @@
                 }
             };
             fs.writeFileSync('settings.json', JSON.stringify(settings, null, 2));
+        }
+
+        win.on('close', function () {
+            saveSettings();
             win.close(true);
         });
 
@@ -209,8 +213,8 @@
             win.moveTo(Math.round((screen.availWidth - win.width)*0.95) + xOffset, Math.round((screen.availHeight - win.height)/2))
         }
         
-        showPairingKey()
-        getTVsession()
+        showPairingKey(tvAddr);
+        getTVsession(tvAddr, tvPairKey);
 
 
         function setCode (elementId, code) {
@@ -230,6 +234,8 @@
 
         global.setPairKey = key => tvPairKey = key;
         global.setTvAddr = addr => tvAddr = addr;
+        global.showPairingKey = showPairingKey;
+        global.getTVsession = getTVsession;
 
         function showConfig() {
             nw.Window.open('config.html', {
@@ -247,10 +253,18 @@
                     tvAddrElem.value = tvAddr;
                     pairKeyElement.value = tvPairKey;
 
+                    cfgWin.window.document.getElementById('cancelBtn').onclick = () => cfgWin.close();
+                    cfgWin.window.document.getElementById('showKeyBtn').onclick = () => {
+                        global.showPairingKey(tvAddrElem.value);
+                    }
+
                     cfgWin.window.document.getElementById('okBtn').onclick = function () {
                         console.log('ok pressed')
                         global.setTvAddr(tvAddrElem.value);
                         global.setPairKey(pairKeyElement.value);
+
+                        global.getTVsession(tvAddrElem.value, pairKeyElement.value);
+
                         cfgWin.close();
                     };
                 }

@@ -5,7 +5,7 @@ var parser = require('fast-xml-parser');
 var cookieJar = '';
 
 var tvAddr = '192.168.0.8'
-var tvKey = '587905'
+var tvPairKey = '587905'
 var tvSession = 0;
 
 
@@ -14,7 +14,7 @@ var cssNormal = 'font-size: initial; font-weight: normal;'
 
 
 // Exibe a key na TV
-function showPairingKey() {
+function showPairingKey(tvAddr) {
     return request({
         url: `http://${tvAddr}:8080/roap/api/auth`,
         method: 'POST',
@@ -33,7 +33,7 @@ function showPairingKey() {
 }
 
 // Pegar session
-function getTVsession() {
+function getTVsession(tvAddr, tvPairKey) {
     return request({
         url: `http://${tvAddr}:8080/roap/api/auth`,
         method: 'POST',
@@ -41,7 +41,7 @@ function getTVsession() {
         headers: {
             'Content-Type': 'application/atom+xml'
         },
-        body: `<!--?xml version="1.0" encoding="utf-8"?--><auth><type>AuthReq</type><value>${tvKey}</value></auth>`
+        body: `<!--?xml version="1.0" encoding="utf-8"?--><auth><type>AuthReq</type><value>${tvPairKey}</value></auth>`
     }, function (error, response, body) {
         RESPONSE = response; ERROR = error; BODY = body;
         console.log('%cresponse%c\n',cssTitle, cssNormal, response)
