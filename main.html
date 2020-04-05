@@ -194,7 +194,7 @@
 
         win.on('close', function () {
             saveSettings();
-            win.close(true);
+            nw.App.quit();
         });
 
         
