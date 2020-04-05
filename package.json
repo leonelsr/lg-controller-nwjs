@@ -11,6 +11,8 @@
     "transparent": true,
     "width": 180,
     "height": 828,
+    "min_width": 134,
+    "min_height": 617,
     "icon": "icon.png"
   },
   "dependencies": {
